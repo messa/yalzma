@@ -58,6 +58,12 @@ class LZMAEncoder:
         ret = self.liblzma.lzma_easy_encoder(self.stream_ptr, preset, LZMA_CHECK_CRC64)
         if ret != LZMA_OK:
             raise Exception('lzma_easy_encoder failed: {}'.format(ret))
+        self._needs_free = True
+
+    def __del__(self):
+        if self._needs_free:
+            self.liblzma.lzma_end(self.stream_ptr)
+            self._needs_free = False
 
     def run(self, data):
         assert isinstance(data, bytes)
@@ -123,4 +129,8 @@ class LZMAEncoder:
                 else:
                     raise Exception('lzma_code failed: {}'.format(ret))
         assert self.stream.avail_out == out_buf_size
+        self.liblzma.lzma_end(self.stream_ptr)
+        self._needs_free = False
+        del self.stream
+        del self.stream_ptr
         return b''.join(compressed_data)

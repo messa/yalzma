@@ -23,17 +23,15 @@ def status():
 
 
 def test_memory_leaks():
-    run()
     try:
         st = status()
     except FileNotFoundError as e:
         skip(str(e))
+    run()
+    st = status()
     vm_peak_before = st['VmPeak']
-    vm_rss_before = st['VmRSS']
     for i in range(100):
         run()
     st = status()
     vm_peak_after = st['VmPeak']
-    vm_rss_after = st['VmRSS']
     assert vm_peak_after == vm_peak_before
-    assert vm_rss_after == vm_rss_before
