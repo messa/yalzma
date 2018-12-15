@@ -74,8 +74,8 @@ class LZMAEncoder:
         self.stream.avail_out = out_buf_size
         while self.stream.avail_in > 0:
             ret = self.liblzma.lzma_code(self.stream_ptr, LZMA_RUN)
-            if self.stream.avail_out > 0:
-                write_size = out_buf_size - self.stream.avail_out
+            write_size = out_buf_size - self.stream.avail_out
+            if write_size:
                 compressed_data.append(out_buf.raw[:write_size])
                 self.stream.next_out = out_buf
                 self.stream.avail_out = out_buf_size
@@ -95,8 +95,8 @@ class LZMAEncoder:
         self.stream.avail_out = out_buf_size
         while True:
             ret = self.liblzma.lzma_code(self.stream_ptr, LZMA_SYNC_FLUSH)
-            if self.stream.avail_out > 0:
-                write_size = out_buf_size - self.stream.avail_out
+            write_size = out_buf_size - self.stream.avail_out
+            if write_size:
                 compressed_data.append(out_buf.raw[:write_size])
                 self.stream.next_out = out_buf
                 self.stream.avail_out = out_buf_size
@@ -116,8 +116,8 @@ class LZMAEncoder:
         self.stream.avail_out = out_buf_size
         while True:
             ret = self.liblzma.lzma_code(self.stream_ptr, LZMA_FINISH)
-            if self.stream.avail_out > 0:
-                write_size = out_buf_size - self.stream.avail_out
+            write_size = out_buf_size - self.stream.avail_out
+            if write_size:
                 compressed_data.append(out_buf.raw[:write_size])
                 self.stream.next_out = out_buf
                 self.stream.avail_out = out_buf_size
