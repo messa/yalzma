@@ -1,6 +1,3 @@
-__all__ = ['LZMAEncoder']
-
-
 import ctypes
 
 
@@ -127,48 +124,3 @@ class LZMAEncoder:
                     raise Exception('lzma_code failed: {}'.format(ret))
         assert self.stream.avail_out == out_buf_size
         return b''.join(compressed_data)
-
-
-def _check(fast=True):
-    from io import BytesIO
-    from lzma import decompress, open as lzma_open
-    from os import urandom
-    samples = [
-        b'',
-        b'Hello!',
-        b''.join(bytes([i]) for i in range(256)),
-        urandom(10),
-        urandom(100),
-    ]
-    for sample in samples:
-
-        x = LZMAEncoder()
-        data = x.run(sample) + x.finish()
-        assert decompress(data) == sample
-
-        split_points = [3] if fast else range(len(sample))
-        for i in split_points:
-            if i >= len(sample):
-                continue
-
-            x = LZMAEncoder()
-            data = x.run(sample[:i]) + x.run(sample[i:]) + x.finish()
-            assert decompress(data) == sample
-
-            x = LZMAEncoder()
-            data = x.run(sample[:i]) + x.sync_flush() + x.run(sample[i:]) + x.finish()
-            assert decompress(data) == sample
-
-            x = LZMAEncoder()
-            data = x.run(sample[:i]) + x.sync_flush()
-            f = lzma_open(BytesIO(data), mode='rb')
-            assert f.read(i) == sample[:i]
-
-
-def _main():
-    _check(fast=False)
-    print('OK')
-
-
-if __name__ == '__main__':
-    _main()
