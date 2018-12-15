@@ -3,7 +3,6 @@ import ctypes
 
 _liblzma = None
 
-
 def get_liblzma():
     global _liblzma
     if _liblzma is None:
@@ -35,7 +34,6 @@ sizeof_lzma_stream = 136
 
 
 class LZMAStream (ctypes.Structure):
-
 
     _fields_ = [
         ('next_in', ctypes.POINTER(ctypes.c_char)),
