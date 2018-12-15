@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  test_python35:
+    docker:
+      - image: circleci/python:3.5
+    steps: &steps
+      - checkout
+      - run: python3 -m venv ~/venv
+      - run: ~/venv/bin/python3 -m pip install -U pip wheel
+      - run: ~/venv/bin/python3 -m pip install pytest
+      - run: ~/venv/bin/python3 -m pip install .
+      - run: ~/venv/bin/python3 -m pytest -v tests
+
+  test_python36:
+    docker:
+      - image: circleci/python:3.6
+    steps: *steps
+
+  test_python37:
+    docker:
+      - image: circleci/python:3.7
+    steps: *steps
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test_python35
+      - test_python36
+      - test_python37
