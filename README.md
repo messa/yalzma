@@ -55,6 +55,28 @@ From `lzma/base.h` (by Lasse Collin, public domain):
 ```
 
 
+Installation
+------------
+
+Install current github master:
+
+```sh
+$ pip install git+https://github.com/messa/yalzma
+```
+
+Install specific version:
+
+```sh
+$ pip install git+https://github.com/messa/yalzma.git@v0.0.2
+```
+
+Or add this line to your `requirements.txt`:
+
+```
+git+https://github.com/messa/yalzma@v0.0.2#egg=yalzma==0.0.2
+```
+
+
 Usage
 -----
 
