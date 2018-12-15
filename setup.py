@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='yalzma',
-    version='0.0.1',
+    version='0.0.2',
     description='Yet Another LZMA Python wrapper',
     classifiers=[
         'Programming Language :: Python :: 3.5',
