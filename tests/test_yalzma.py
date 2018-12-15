@@ -34,3 +34,10 @@ def test_samples():
             data = x.run(sample[:i]) + x.sync_flush()
             f = lzma_open(BytesIO(data), mode='rb')
             assert f.read(i) == sample[:i]
+
+
+def test_compress_larger_random_data():
+    sample = urandom(5 * 2**20)
+    x = LZMAEncoder()
+    data = x.run(sample) + x.finish()
+    assert decompress(data) == sample
