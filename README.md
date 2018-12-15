@@ -7,6 +7,21 @@ Works directly with liblzma.so via [ctypes](https://docs.python.org/3/library/ct
 No other dependencies.
 
 
+What is LZMA?
+-------------
+
+LZMA is a compression algorithm - like gzip or bzip2.
+
+The default configuration (of both Python [lzma module](https://docs.python.org/3/library/lzma.html) and this library)
+is to use the LZMA2 filter and XZ container format.
+So you can directly save the compressed data in a file with the `.xz` suffix and it will work with many other
+programs, utilities and systems. For example `xzcat` or `xzgrep`.
+
+Wikipedia: [Lempel–Ziv–Markov chain algorithm](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Markov_chain_algorithm)
+
+Lot of software uses LZMA compression internally. For example many software package managers.
+
+
 But why? Python standard library already contains lzma module…
 --------------------------------------------------------------
 
