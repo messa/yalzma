@@ -2,7 +2,10 @@ import ctypes
 import logging
 
 
+DEFAULT_PRESET = 6
+
 logger = logging.getLogger(__name__)
+
 
 _liblzma = None
 
@@ -68,12 +71,11 @@ class LZMAStream (ctypes.Structure):
 
 class LZMAEncoder:
 
-    def __init__(self):
+    def __init__(self, preset=DEFAULT_PRESET):
         self._needs_free = False
         self.liblzma = get_liblzma()
         self.stream = LZMAStream()
         self.stream_ptr = ctypes.pointer(self.stream)
-        preset = 6
         ret = self.liblzma.lzma_easy_encoder(self.stream_ptr, preset, LZMA_CHECK_CRC64)
         if ret != LZMA_OK:
             raise Exception('lzma_easy_encoder failed: {}'.format(ret))
