@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 _liblzma = None
 
 try_names = [
+    'liblzma.so.5',
     'liblzma.so',
     'liblzma.dylib',
 ]
