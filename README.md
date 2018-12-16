@@ -88,13 +88,13 @@ $ pip install git+https://github.com/messa/yalzma
 Install specific version:
 
 ```sh
-$ pip install git+https://github.com/messa/yalzma.git@v0.0.3
+$ pip install git+https://github.com/messa/yalzma.git@v0.0.4
 ```
 
 Or add this line to your `requirements.txt`:
 
 ```
-git+https://github.com/messa/yalzma@v0.0.3#egg=yalzma==0.0.3
+git+https://github.com/messa/yalzma@v0.0.4#egg=yalzma==0.0.4
 ```
 
 
