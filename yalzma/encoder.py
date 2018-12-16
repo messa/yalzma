@@ -1,12 +1,32 @@
 import ctypes
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 _liblzma = None
+
+try_names = [
+    'liblzma.so',
+    'liblzma.dylib',
+]
 
 def get_liblzma():
     global _liblzma
     if _liblzma is None:
-        _liblzma = ctypes.cdll.LoadLibrary('liblzma.so.5')
+        for name in try_names:
+            try:
+                _liblzma = ctypes.cdll.LoadLibrary(name)
+            except OSError as e:
+                logging.debug('Failed to load library %r: %r', name, e)
+                continue
+            else:
+                logging.debug('Succeeded to load library %r', name)
+                break
+        else:
+            assert _liblzma is None
+            raise Exception('Failed to import liblzma - is it installed?')
+        assert _liblzma
     return _liblzma
 
 
@@ -49,6 +69,7 @@ class LZMAStream (ctypes.Structure):
 class LZMAEncoder:
 
     def __init__(self):
+        self._needs_free = False
         self.liblzma = get_liblzma()
         self.stream = LZMAStream()
         self.stream_ptr = ctypes.pointer(self.stream)
