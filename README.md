@@ -73,7 +73,13 @@ From `lzma/base.h` (by Lasse Collin, public domain):
 Installation
 ------------
 
-Install current github master:
+Tested on [Debian Linux](https://www.debian.org) and macOS.
+
+You need to have liblzma installed - that means there should be a file
+`liblzma.so` (for Linux) or `liblzma.dylib` (for macOS) somewhere in a library
+directory (`/usr/lib` or similar). Usually it is already installed.
+
+Install yalzma from current Github master:
 
 ```sh
 $ pip install git+https://github.com/messa/yalzma
